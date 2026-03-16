@@ -23,7 +23,6 @@ const PORT = configuration.PORT || 5000;
 
 // Middlewares
 app.use(cors(corsOptions));
-// app.use(cors({ origin: "http://127.0.0.1:5500" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
