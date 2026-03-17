@@ -1,6 +1,6 @@
 ## Base end points
 
-GET http://localhost:5000/
+GET https://volunteer-bridge-3.onrender.com
 
 # JSON Output
 
@@ -14,7 +14,7 @@ GET http://localhost:5000/
 
 # request
 
-POST http://localhost:5000/api/auth/register
+POST https://volunteer-bridge-3.onrender.com/api/auth/register
 
 raw JSON
 
@@ -45,7 +45,7 @@ JSON
 
 ## Log in
 
-POST http://localhost:5000/api/auth/login
+POST https://volunteer-bridge-3.onrender.com/api/auth/login
 
 # Request
 
@@ -80,7 +80,7 @@ JSON
 
 ## LOGIN another user
 
-POST http://localhost:5000/api/auth/register
+POST https://volunteer-bridge-3.onrender.com/api/auth/register
 
 raw JSON
 request
@@ -113,6 +113,8 @@ request
 
 ## Register Admin
 
+POST API https://volunteer-bridge-3.onrender.com/api/auth/register
+
 # request
 
 # raw JSON
@@ -133,20 +135,23 @@ body JSON
 "user": {
 "isActive": true,
 "isVerified": false,
-"role": "volunteer",
-"id": 5,
+"id": 4,
 "name": "Sunday Oluwasegun",
 "email": "sundayo@example.com",
-"updatedAt": "2026-03-12T13:57:28.618Z",
-"createdAt": "2026-03-12T13:57:28.618Z"
+"phone_number": null,
+"role": "admin",
+"updatedAt": "2026-03-17T14:14:35.426Z",
+"createdAt": "2026-03-17T14:14:35.426Z",
+"resetTokenExpiry": null,
+"lastLogin": null
+}
 }
 }
 
 ## Admin log-in
 
 api
-POST http://localhost:5000/api/auth/login
-
+POST https://volunteer-bridge-3.onrender.com/api/auth/login
 body
 raw JSON
 Request
@@ -178,7 +183,7 @@ Response
 
 ## Create Project
 
-Api http://localhost:5000/api/projects
+Api https://volunteer-bridge-3.onrender.com/api/projects
 POST
 
 # request
@@ -197,7 +202,7 @@ POST
 
 # response
 
-{
+{{
 "success": true,
 "message": "Project created successfully",
 "data": {
@@ -207,9 +212,9 @@ POST
 "startDate": null,
 "endDate": null,
 "status": "active",
-"createdBy": 5,
-"updatedAt": "2026-03-13T20:36:52.562Z",
-"createdAt": "2026-03-13T20:36:52.562Z"
+"createdBy": 3,
+"updatedAt": "2026-03-17T14:28:07.181Z",
+"createdAt": "2026-03-17T14:28:07.181Z"
 }
 }
 
@@ -217,7 +222,7 @@ POST
 
 # api
 
-- GET http://localhost:5000/api/projects
+- GET https://volunteer-bridge-3.onrender.com/api/projects
 
 # request
 
@@ -245,8 +250,7 @@ response:
 
 ## Create task for project
 
-api http://localhost:5000/api/tasks/projects/1/tasks
-POST http://localhost:5000/api/tasks/projects/1/tasks
+POST https://volunteer-bridge-3.onrender.com/api/tasks/projects/1/tasks
 
 # request
 
@@ -284,7 +288,7 @@ raw JSON
 
 # api
 
-GET http://localhost:5000/api/tasks/projects/1/tasks
+GET https://volunteer-bridge-3.onrender.com/api/tasks/projects/1/tasks
 
 # request
 
@@ -317,7 +321,7 @@ Body blank
 
 # Api
 
-http://localhost:5000/api/tasks/1/assign
+https://volunteer-bridge-3.onrender.com/api/tasks/1/assign
 
 # authorization input bearer token from volunteer
 
@@ -356,7 +360,7 @@ raw JSON
 
 # api
 
-http://localhost:5000/api/reports
+https://volunteer-bridge-3.onrender.com/api/reports
 
 body
 raw JSON
@@ -392,7 +396,7 @@ raw JSON
 
 api
 GET
-http://localhost:5000/api/reports/user/1
+https://volunteer-bridge-3.onrender.com/api/reports/user/1
 
 # Request
 
@@ -430,7 +434,7 @@ raw JSON
 ## Get Project Report
 
 api
-http://localhost:5000/api/reports/project/1
+https://volunteer-bridge-3.onrender.com/api/reports/project/1
 
 Request
 raw JSON
@@ -531,6 +535,8 @@ Response
 
 ## Create Donation Cash
 
+https://volunteer-bridge-3.onrender.com/api/donations
+
 # request
 
 Body
@@ -556,5 +562,41 @@ raw JSON
 "paymentMethod": "cash",
 "updatedAt": "2026-03-15T18:09:42.727Z",
 "createdAt": "2026-03-15T18:09:42.727Z"
+}
+}
+
+## fetched project
+
+# POST API https://volunteer-bridge-3.onrender.com/api/projects
+
+# Request
+
+- Body
+- raw json
+  input token
+  {
+  "name":"Free medical Check up",
+  "description": "Check Blood Sugar,Blood Pressure, MP and give drugs",
+  "start_date": "2026-04-05",
+  "end_date": "2026-04-10",
+  "status": "active"
+
+}
+
+# response
+
+{
+"success": true,
+"message": "Project created successfully",
+"data": {
+"id": 2,
+"name": "Free medical Check up",
+"description": "Check Blood Sugar,Blood Pressure, MP and give drugs",
+"startDate": null,
+"endDate": null,
+"status": "active",
+"createdBy": 3,
+"updatedAt": "2026-03-17T14:42:15.623Z",
+"createdAt": "2026-03-17T14:42:15.623Z"
 }
 }
