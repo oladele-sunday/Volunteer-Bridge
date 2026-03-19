@@ -600,3 +600,64 @@ raw JSON
 "createdAt": "2026-03-17T14:42:15.623Z"
 }
 }
+
+## Register Volunteer
+
+POST api https://volunteer-bridge-3.onrender.com/api/auth/register
+body
+raw JSON
+{
+"name":"John Great",
+"email":"johngreat@example.com",
+"password":"123456987",
+"role":"volunteer"
+
+}
+
+Response
+{
+"message": "User registered successfully",
+"user": {
+"isActive": true,
+"isVerified": false,
+"id": 7,
+"name": "John Great",
+"email": "johngreat@example.com",
+"phone_number": null,
+"role": "volunteer",
+"updatedAt": "2026-03-19T06:58:15.645Z",
+"createdAt": "2026-03-19T06:58:15.645Z",
+"resetTokenExpiry": null,
+"lastLogin": null
+}
+}
+
+## volunteer log in
+
+POST api https://volunteer-bridge-3.onrender.com/api/auth/login
+body
+raw JSON
+{
+"email":"johngreat@example.com",
+"password":"123456987"
+
+}
+
+response
+{
+"message": "Login successful",
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTc3MzkwNDE5MywiZXhwIjoxNzc2NDk2MTkzfQ.suyQVOLY2nGHR0ASwdS64_FUj9K3BL3lL-JYuLs_aYw",
+"user": {
+"id": 7,
+"name": "John Great",
+"email": "johngreat@example.com",
+"phone_number": null,
+"isActive": true,
+"isVerified": false,
+"role": "volunteer",
+"resetTokenExpiry": null,
+"lastLogin": "2026-03-19T07:09:53.044Z",
+"createdAt": "2026-03-19T06:58:15.645Z",
+"updatedAt": "2026-03-19T07:09:53.044Z"
+}
+}
