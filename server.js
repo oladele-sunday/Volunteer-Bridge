@@ -19,8 +19,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-// const PORT = configuration.PORT || 5000;
+
 const PORT = process.env.PORT || 5000;
+
+await sequelize.sync({ force: true });
 
 // Middlewares
 app.use(cors(corsOptions));
