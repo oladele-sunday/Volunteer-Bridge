@@ -1,14 +1,18 @@
 import express from "express";
-import { getAllVolunteers, updateVolunteer } from "../controllers/volunteer.controller.js";
+import { getAllVolunteers, updateVolunteer, createVolunteer } from "../controllers/volunteer.controller.js";
 import authMiddleware from "../middleware/auth.js";
 import roleMiddleware from "../middleware/role.js";
 
 const router = express.Router();
 
-// Only admins or coordinators can view all volunteers
+// Create volunteer
+router.post("/", createVolunteer);
+
+// Get all volunteers
 router.get("/", authMiddleware, roleMiddleware("admin", "coordinator"), getAllVolunteers);
 
-// Volunteers can update themselves or admins can update anyone
+// Update volunteer (protected: admin can update any, volunteer updates self)
+
 router.put("/:id", authMiddleware, updateVolunteer);
 
 export default router;

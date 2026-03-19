@@ -21,6 +21,7 @@ const Volunteer = sequelize.define(
     {
         tableName: "volunteers",
         timestamps: true,
+        underscored: true,
     }
 );
 

@@ -661,3 +661,75 @@ response
 "updatedAt": "2026-03-19T07:09:53.044Z"
 }
 }
+
+## create a volunteer
+
+# api http://localhost:5000/api/volunteers
+
+body
+raw JSON
+{
+"userId": 1,
+"skills": "Teaching",
+"availability": "active",
+"status": "active"
+}
+
+# Response
+
+{
+"id": 3,
+"userId": 1,
+"skills": "Teaching",
+"availability": "active",
+"status": "active",
+"updatedAt": "2026-03-19T15:55:33.762Z",
+"createdAt": "2026-03-19T15:55:33.762Z"
+}
+
+## Get all volunteers(admins with log in token)
+
+# api http://localhost:5000/api/volunteers
+
+body blank
+authorization token
+
+response
+
+[
+{
+"id": 3,
+"userId": 1,
+"skills": "Teaching",
+"availability": "active",
+"status": "active",
+"createdAt": "2026-03-19T15:55:33.762Z",
+"updatedAt": "2026-03-19T15:55:33.762Z",
+"user_id": 1
+}
+]
+
+## Update Volunteer Profile
+
+api
+body
+raw JSON
+{
+"userId": 3,
+"skills": "Software Engineer",
+"availability": "available",
+"status": "active"
+}
+
+# Response
+
+{
+"id": 3,
+"userId": 1,
+"skills": "Software Engineer",
+"availability": "available",
+"status": "active",
+"createdAt": "2026-03-19T15:55:33.762Z",
+"updatedAt": "2026-03-19T18:04:00.488Z",
+"user_id": 1
+}
