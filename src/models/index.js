@@ -36,6 +36,10 @@ Report.belongsTo(Project, { foreignKey: "project_id", as: "project" });
 Report.hasMany(Notification, { foreignKey: "report_id", as: "notifications" });
 Notification.belongsTo(Report, { foreignKey: "report_id", as: "report" });
 
+// Define relationships here
+User.hasOne(Volunteer, { foreignKey: "userId" });
+Volunteer.belongsTo(User, { foreignKey: "userId" });
+
 export {
     sequelize,
     User,

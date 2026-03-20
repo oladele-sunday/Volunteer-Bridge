@@ -698,24 +698,26 @@ response
 
 [
 {
-"id": 3,
-"userId": 1,
-"skills": "Teaching",
-"availability": "active",
+"id": 1,
+"skills": "Software Engineer",
+"availability": "available",
 "status": "active",
-"createdAt": "2026-03-19T15:55:33.762Z",
-"updatedAt": "2026-03-19T15:55:33.762Z",
-"user_id": 1
+"createdAt": "2026-03-20T19:43:33.842Z",
+"updatedAt": "2026-03-20T19:44:21.007Z",
+"user": {
+"id": 1,
+"name": "John Great"
+}
 }
 ]
 
 ## Update Volunteer Profile
 
-api
+api http://localhost:5000/api/volunteers/1
 body
 raw JSON
 {
-"userId": 3,
+"userId": 1,
 "skills": "Software Engineer",
 "availability": "available",
 "status": "active"
@@ -724,7 +726,7 @@ raw JSON
 # Response
 
 {
-"id": 3,
+"id": 1,
 "userId": 1,
 "skills": "Software Engineer",
 "availability": "available",
@@ -732,4 +734,14 @@ raw JSON
 "createdAt": "2026-03-19T15:55:33.762Z",
 "updatedAt": "2026-03-19T18:04:00.488Z",
 "user_id": 1
+}
+{
+"id": 1,
+"skills": "Software Engineer",
+"availability": "available",
+"status": "active",
+"user": {
+"id": 1,
+"name": "John Great"
+}
 }

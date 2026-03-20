@@ -1,5 +1,4 @@
-import Volunteer from "../models/volunteer.js";
-import User from "../models/user.js";             // optional: verify user exists
+import { User, Volunteer } from "../models/index.js";
 
 
 // Create volunteer
@@ -35,13 +34,33 @@ export const createVolunteer = async (req, res) => {
 
 export const getAllVolunteers = async (req, res) => {
     try {
-        const volunteers = await Volunteer.findAll();
-        res.json(volunteers);
+        // Fetch all volunteers and include user info
+        const volunteers = await Volunteer.findAll({
+            include: {
+                model: User,
+                attributes: ["id", "name"] // return only what frontend needs
+            }
+        });
+
+        // Format the response
+        const formatted = volunteers.map(vol => ({
+            id: vol.id,
+            skills: vol.skills,
+            availability: vol.availability,
+            status: vol.status,
+            createdAt: vol.createdAt,
+            updatedAt: vol.updatedAt,
+            user: {
+                id: vol.User.id,
+                name: vol.User.name
+            }
+        }));
+
+        res.json(formatted);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
-
 
 // Update volunteer
 
@@ -57,13 +76,34 @@ export const updateVolunteer = async (req, res) => {
             return res.status(404).json({ message: "Volunteer not found" });
         }
 
+        // Update fields
         volunteer.skills = skills || volunteer.skills;
         volunteer.availability = availability || volunteer.availability;
         volunteer.status = status || volunteer.status;
 
         await volunteer.save();
 
-        res.json(volunteer);
+        // Fetch updated volunteer with user info
+        const updatedVolunteer = await Volunteer.findOne({
+            where: { id: volunteer.id },
+            include: {
+                model: User,
+                attributes: ["id", "name"]
+            }
+        });
+
+        // Custom response format
+        res.json({
+            id: updatedVolunteer.id,
+            skills: updatedVolunteer.skills,
+            availability: updatedVolunteer.availability,
+            status: updatedVolunteer.status,
+            user: {
+                id: updatedVolunteer.User.id,
+                name: updatedVolunteer.User.name
+            }
+        });
+
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

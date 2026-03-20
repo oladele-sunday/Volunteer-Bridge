@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
-import User from "./user.js";
+import User from "./user.js";               // for association, optional if defined in index.js
 
 const Volunteer = sequelize.define(
     "Volunteer",
