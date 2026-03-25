@@ -2,6 +2,8 @@ import { configuration } from './env.js';
 
 export const corsOptions = {
   origin(origin, callback) {
+    console.log("Origin:", origin);
+
     if (!origin || configuration.ALLOWED_ORIGIN.includes(origin)) {
       return callback(null, true);
     }
