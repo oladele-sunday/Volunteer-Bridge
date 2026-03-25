@@ -48,8 +48,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/donations", donationRoutes);
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+
 // Health check
 app.get("/health", async (req, res) => {
   try {
