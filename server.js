@@ -20,7 +20,7 @@ dotenv.config();
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 // await sequelize.sync({ force: true });// Use with caution: drops and recreates tables. Good for development, not for production.
 
