@@ -1,9 +1,10 @@
+// admin.model.js
+
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database.js";
 import bcrypt from "bcryptjs";
-import Report from "./report.js";
 
-class User extends Model {
+class Admin extends Model {
     async comparePassword(plain) {
         return await bcrypt.compare(plain, this.password);
     }
@@ -17,19 +18,48 @@ class User extends Model {
     }
 }
 
-User.init(
+Admin.init(
     {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        name: { type: DataTypes.STRING, allowNull: false, validate: { notEmpty: true } },
-        email: { type: DataTypes.STRING, allowNull: false, unique: true, validate: { isEmail: true } },
-        phone_number: { type: DataTypes.STRING, allowNull: true },
-        password: { type: DataTypes.STRING, allowNull: false },
-        isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
-        isVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
-        role: {
-            type: DataTypes.ENUM("volunteer", "admin", "superadmin", "project_manager", "finance", "donor"),
-            defaultValue: "volunteer",
+
+        name: { 
+            type: DataTypes.STRING, 
+            allowNull: false, 
+            validate: { notEmpty: true } 
         },
+
+        email: { 
+            type: DataTypes.STRING, 
+            allowNull: false, 
+            unique: true, 
+            validate: { isEmail: true } 
+        },
+
+        phone_number: { 
+            type: DataTypes.STRING, 
+            allowNull: true 
+        },
+
+        password: { 
+            type: DataTypes.STRING, 
+            allowNull: false 
+        },
+
+        isActive: { 
+            type: DataTypes.BOOLEAN, 
+            defaultValue: true 
+        },
+
+        isVerified: { 
+            type: DataTypes.BOOLEAN, 
+            defaultValue: true // admins usually pre-verified
+        },
+
+        role: {
+            type: DataTypes.ENUM("admin", "superadmin"),
+            defaultValue: "admin",
+        },
+
         verifyToken: { type: DataTypes.STRING, allowNull: true },
         resetToken: { type: DataTypes.STRING, allowNull: true },
         resetTokenExpiry: { type: DataTypes.DATE, allowNull: true },
@@ -38,24 +68,24 @@ User.init(
     {
         timestamps: true,
         sequelize,
-        modelName: "User",
-        tableName: "users",
+        modelName: "Admin",
+        tableName: "admins",
+
         hooks: {
-            beforeCreate: async (user) => {
-                if (user.password) {
+            beforeCreate: async (admin) => {
+                if (admin.password) {
                     const salt = await bcrypt.genSalt(10);
-                    user.password = await bcrypt.hash(user.password, salt);
+                    admin.password = await bcrypt.hash(admin.password, salt);
                 }
             },
-            beforeUpdate: async (user) => {
-                if (user.changed("password")) {
+            beforeUpdate: async (admin) => {
+                if (admin.changed("password")) {
                     const salt = await bcrypt.genSalt(10);
-                    user.password = await bcrypt.hash(user.password, salt);
+                    admin.password = await bcrypt.hash(admin.password, salt);
                 }
             },
         },
-    },
+    }
 );
 
-
-export default User;
+export default Admin;

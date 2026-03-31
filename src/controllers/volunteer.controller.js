@@ -1,5 +1,5 @@
 // volunteer.controller.js
-import Volunteer from "../models/volunteer.model.js";
+import Volunteer from "../models/volunteer.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
