@@ -1,108 +1,112 @@
-import { User, Volunteer } from "../models/index.js";
+// volunteer.controller.js
+import Volunteer from "../models/volunteer.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-
-// Create volunteer
-
+// Register a volunteer
 export const createVolunteer = async (req, res) => {
     try {
-        const { userId, skills, availability, status } = req.body;
+        const { name, email, phone_number, password, skills, availability } = req.body;
 
-        // Optional: check if user exists
-        const user = await User.findByPk(userId);
-        if (!user) return res.status(400).json({ message: "Invalid userId" });
-
-        // Check if volunteer profile already exists
-        const existing = await Volunteer.findOne({ where: { userId } });
+        // Check if email already exists
+        const existing = await Volunteer.findOne({ where: { email } });
         if (existing)
-            return res.status(400).json({ message: "Volunteer profile already exists" });
+            return res.status(400).json({ message: "Volunteer with this email already exists" });
 
+        // Create volunteer
         const volunteer = await Volunteer.create({
-            userId,
+            name,
+            email,
+            phone_number,
+            password, // model hook will hash
             skills,
-            availability,
-            status: status || "active",
+            availability
         });
 
-        res.status(201).json(volunteer);
+        res.status(201).json({
+            id: volunteer.id,
+            name: volunteer.name,
+            email: volunteer.email,
+            phone_number: volunteer.phone_number,
+            skills: volunteer.skills,
+            availability: volunteer.availability,
+            status: volunteer.status,
+            isVerified: volunteer.isVerified,
+        });
+
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
 
-
 // Get all volunteers
-
 export const getAllVolunteers = async (req, res) => {
     try {
-        // Fetch all volunteers and include user info
         const volunteers = await Volunteer.findAll({
-            include: {
-                model: User,
-                attributes: ["id", "name"] // return only what frontend needs
-            }
+            attributes: ["id", "name", "email", "phone_number", "skills", "availability", "status"]
         });
 
-        // Format the response
-        const formatted = volunteers.map(vol => ({
-            id: vol.id,
-            skills: vol.skills,
-            availability: vol.availability,
-            status: vol.status,
-            createdAt: vol.createdAt,
-            updatedAt: vol.updatedAt,
-            user: {
-                id: vol.User.id,
-                name: vol.User.name
-            }
-        }));
-
-        res.json(formatted);
+        res.json(volunteers);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 };
 
 // Update volunteer
-
 export const updateVolunteer = async (req, res) => {
     try {
-        const { skills, availability, status } = req.body;
-
-        const volunteer = await Volunteer.findOne({
-            where: { userId: req.user.id }
-        });
-
-        if (!volunteer) {
+        // Assuming req.user.id comes from JWT auth middleware
+        const volunteer = await Volunteer.findByPk(req.user.id);
+        if (!volunteer)
             return res.status(404).json({ message: "Volunteer not found" });
-        }
 
-        // Update fields
+        const { name, email, phone_number, skills, availability, status } = req.body;
+
+        volunteer.name = name || volunteer.name;
+        volunteer.email = email || volunteer.email;
+        volunteer.phone_number = phone_number || volunteer.phone_number;
         volunteer.skills = skills || volunteer.skills;
         volunteer.availability = availability || volunteer.availability;
         volunteer.status = status || volunteer.status;
 
         await volunteer.save();
 
-        // Fetch updated volunteer with user info
-        const updatedVolunteer = await Volunteer.findOne({
-            where: { id: volunteer.id },
-            include: {
-                model: User,
-                attributes: ["id", "name"]
-            }
+        res.json({
+            id: volunteer.id,
+            name: volunteer.name,
+            email: volunteer.email,
+            phone_number: volunteer.phone_number,
+            skills: volunteer.skills,
+            availability: volunteer.availability,
+            status: volunteer.status,
         });
 
-        // Custom response format
-        res.json({
-            id: updatedVolunteer.id,
-            skills: updatedVolunteer.skills,
-            availability: updatedVolunteer.availability,
-            status: updatedVolunteer.status,
-            user: {
-                id: updatedVolunteer.User.id,
-                name: updatedVolunteer.User.name
-            }
-        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Optional: Volunteer login
+export const loginVolunteer = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const volunteer = await Volunteer.findOne({ where: { email } });
+        if (!volunteer)
+            return res.status(400).json({ message: "Invalid email or password" });
+
+        const isMatch = await volunteer.comparePassword(password);
+        if (!isMatch)
+            return res.status(400).json({ message: "Invalid email or password" });
+
+        // Generate JWT
+        const token = jwt.sign(
+            { id: volunteer.id, email: volunteer.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        res.json({ token, volunteer: { id: volunteer.id, name: volunteer.name, email: volunteer.email } });
 
     } catch (err) {
         res.status(500).json({ message: err.message });

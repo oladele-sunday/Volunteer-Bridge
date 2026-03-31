@@ -1,6 +1,6 @@
 import Report from "../models/report.js";
 import Project from "../models/Project.js";
-import User from "../models/user.js";
+import User from "../models/Admin.js";
 import { getSystemReport } from "../services/report.js";
 
 // Existing system-wide report

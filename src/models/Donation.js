@@ -1,27 +1,35 @@
-import sequelize from "../config/database.js";
 import { DataTypes } from "sequelize";
-import Report from "./report.js";
+import sequelize from "../config/database.js";
 
 const Donation = sequelize.define("Donation", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+
     amount: {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
 
-    paymentMethod: {
-        type: DataTypes.ENUM("card", "bank_transfer", "cash"),
+    donorId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
 
-    status: {
-        type: DataTypes.ENUM("pending", "completed", "failed"),
-        defaultValue: "pending",
+    reportId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
+
+    bankName: {         
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+}, {
+    tableName: "donations",
+    timestamps: true,
 });
-
-//Report
-
-Report.hasMany(Donation, { foreignKey: "report_id", as: "donations" });
-Donation.belongsTo(Report, { foreignKey: "report_id", as: "report" });
 
 export default Donation;

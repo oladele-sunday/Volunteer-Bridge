@@ -745,3 +745,11 @@ raw JSON
 "name": "John Great"
 }
 }
+
+
+Route	Access	Description
+POST /donors/register	Public	Donor creates account (name, email, phone, optional password)
+POST /donors/login	Public	Donor login with email + password
+GET /donors/me	Protected	Get profile of logged-in donor
+PUT /donors/me	Protected	Update profile of logged-in donor
+GET /donors	Admin only	List all donors (optional)

@@ -1,6 +1,6 @@
 // src/models/index.js
 import sequelize from "../config/database.js";
-import User from "./user.js";
+import User from "./Admin.js";
 import Volunteer from "./volunteer.js";
 import Donation from "./Donation.js";
 import Project from "./Project.js";

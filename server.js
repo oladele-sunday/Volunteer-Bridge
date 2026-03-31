@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import configuration from "./src/config/env.js";
 import { corsOptions } from "./src/config/cors.js";
 import pool from "./src/config/database.js"; // optional for raw queries
-import userRoutes from "./src/routes/userRoutes.js";
+import adminRoutes from "./src/routes/adminRoutes.js";
 import projectRoutes from "./src/routes/projectRoutes.js";
 import taskRoutes from "./src/routes/taskRoutes.js";
 import volunteerRoutes from "./src/routes/volunteerRoutes.js";
@@ -14,6 +14,7 @@ import authRoutes from "./src/routes/authRoutes.js";
 import errorMiddleware from "./src/middleware/error.js";
 import { sequelize } from "./src/models/index.js"; // Sequelize instance with models
 import donationRoutes from "./src/routes/donationRoutes.js";
+import donorRoutes from "./src/routes/donor.routes.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -43,11 +44,13 @@ app.get("/", (req, res) => {
 app.use("/api/projects", projectRoutes);
 app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/tasks", taskRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/donations", donationRoutes);
+app.use("/api/donors",donorRoutes);
+
 // Health check
 app.get("/health", async (req, res) => {
   try {
