@@ -29,7 +29,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(errorMiddleware);
 
 // Routes
 app.get("/", (req, res) => {
@@ -62,6 +61,9 @@ app.get("/health", async (req, res) => {
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
+
+// Error middleware last
+app.use(errorMiddleware);
 
 // Start server & sync Sequelize
 (async () => {
