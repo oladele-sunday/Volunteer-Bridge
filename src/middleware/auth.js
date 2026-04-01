@@ -32,3 +32,4 @@ export const superAdminMiddleware = (req, res, next) => {
   }
   next();
 };
+export default authMiddleware;
