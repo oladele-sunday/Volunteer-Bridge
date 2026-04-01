@@ -1,24 +1,24 @@
 import express from "express";
 import {
-    systemReport,
-    createReport,
-    getReportById,
-    getReportsByUser,
-    getReportsByProject,
+  systemReport,
+  createReport,
+  getAllReports,
+  getReportById,
+  getReportsByUser,
+  getReportsByProject,
 } from "../controllers/report.controller.js";
 
 import authMiddleware from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Existing system-wide report
-
 router.get("/system", authMiddleware, systemReport);
 
-//endpoints
-router.post("/", authMiddleware, createReport);                       // Create a report
-router.get("/:id", authMiddleware, getReportById);                    // Get single report
-router.get("/user/:userId", authMiddleware, getReportsByUser);        // Reports by user
-router.get("/project/:projectId", authMiddleware, getReportsByProject); // Reports by project
+// put specific routes before /:id
+router.post("/", authMiddleware, createReport);
+router.get("/", authMiddleware, getAllReports);
+router.get("/user/:userId", authMiddleware, getReportsByUser);
+router.get("/project/:projectId", authMiddleware, getReportsByProject);
+router.get("/:id", authMiddleware, getReportById);
 
 export default router;
