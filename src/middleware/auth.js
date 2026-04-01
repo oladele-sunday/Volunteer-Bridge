@@ -1,8 +1,10 @@
-// auth.js
-import jwt from "jsonwebtoken";
-import User from "../models/Admin.js";
+// src/middleware/auth.js
 
-// Auth middleware
+import jwt from "jsonwebtoken";
+import Admin from "../models/Admin.js";
+import Volunteer from "../models/volunteer.js";
+import Donor from "../models/Donor.js";
+
 export const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -14,22 +16,29 @@ export const authMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findByPk(decoded.userId);
 
-    if (!user) return res.status(401).json({ message: "User not found" });
+    let userModel;
 
-    req.user = { id: user.id, email: user.email, role: user.role };
+    if (decoded.type === "admin") userModel = Admin;
+    else if (decoded.type === "volunteer") userModel = Volunteer;
+    else if (decoded.type === "donor") userModel = Donor;
+    else return res.status(401).json({ message: "Invalid user type" });
+
+    const user = await userModel.findByPk(decoded.id);
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    req.user = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      type: decoded.type
+    };
+
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token" });
   }
 };
-
-// SuperAdmin middleware
-export const superAdminMiddleware = (req, res, next) => {
-  if (!req.user || req.user.role !== "superadmin") {
-    return res.status(403).json({ message: "Access denied, superadmin only" });
-  }
-  next();
-};
-export default authMiddleware;
