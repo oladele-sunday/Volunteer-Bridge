@@ -33,6 +33,29 @@ export const getProjectTasks = async (req, res) => {
   }
 };
 
+export const getMyTasks = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const tasks = await Task.findAll({
+      where: { assignedTo: userId },
+      order: [["createdAt", "DESC"]],
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Assigned tasks fetched successfully",
+      data: tasks,
+    });
+  } catch (error) {
+    console.error("getMyTasks error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch assigned tasks",
+    });
+  }
+};
+
 export const createTask = async (req, res) => {
   try {
     const { projectId } = req.params;
