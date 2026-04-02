@@ -23,7 +23,7 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-// await sequelize.sync({ force: true });// Use with caution: drops and recreates tables. Good for development, not for production.
+// await sequelize.sync({ force: true });  // Use with caution: drops and recreates tables. Good for development, not for production.
 
 // Middlewares
 app.use(cors(corsOptions));
