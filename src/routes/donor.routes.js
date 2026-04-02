@@ -6,7 +6,7 @@ import {
     updateDonorProfile,
     getAllDonors
 } from "../controllers/donor.controller.js";
-import { authMiddleware, adminMiddleware } from "../middleware/auth.js"; // You need JWT auth middleware
+import { authMiddleware, superAdminMiddleware } from "../middleware/auth.js"; // You need JWT auth middleware
 
 const router = express.Router();
 
@@ -19,6 +19,6 @@ router.get("/me", authMiddleware, getDonorProfile);      // Get logged-in donor 
 router.put("/me", authMiddleware, updateDonorProfile);   // Update logged-in donor profile
 
 // Admin-only route (optional)
-router.get("/", authMiddleware, adminMiddleware, getAllDonors); // List all donors
+router.get("/", authMiddleware, getAllDonors); // List all donors
 
 export default router;

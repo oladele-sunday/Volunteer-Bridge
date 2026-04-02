@@ -5,7 +5,7 @@ import {
   assignTask,
   updateTaskStatus,
 } from "../controllers/task.controller.js";
-import authMiddleware from "../middleware/auth.js";
+import { authMiddleware } from "../middleware/auth.js";
 // import role from "../middleware/role.js";
 
 const router = express.Router();

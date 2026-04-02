@@ -7,7 +7,7 @@ import {
     getReportsByProject,
 } from "../controllers/report.controller.js";
 
-import authMiddleware from "../middleware/auth.js";
+import { authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
 

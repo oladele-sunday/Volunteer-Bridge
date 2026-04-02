@@ -1,6 +1,6 @@
 import express from "express";
 import { getAllVolunteers, updateVolunteer, createVolunteer } from "../controllers/volunteer.controller.js";
-import authMiddleware from "../middleware/auth.js";
+import { authMiddleware } from "../middleware/auth.js";
 import roleMiddleware from "../middleware/role.js";
 
 const router = express.Router();

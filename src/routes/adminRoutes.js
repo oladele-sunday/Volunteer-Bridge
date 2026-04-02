@@ -6,7 +6,9 @@ import {
     updateAdminRole, 
     deleteAdmin 
 } from "../controllers/admin.controller.js";
-import { authMiddleware, superAdminMiddleware } from "../middleware/auth.js"; // JWT auth & role-based middleware
+import { authMiddleware } from "../middleware/auth.js";
+import { superAdminMiddleware } from "../middleware/auth.js";
+
 
 const router = express.Router();
 

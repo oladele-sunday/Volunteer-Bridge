@@ -42,3 +42,12 @@ export const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid token" });
   }
 };
+
+// SuperAdmin middleware
+
+export const superAdminMiddleware = (req, res, next) => {
+  if (!req.user || req.user.role !== "superadmin") {
+    return res.status(403).json({ message: "Access denied, superadmin only" });
+  }
+  next();
+};
